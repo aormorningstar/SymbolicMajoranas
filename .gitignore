@@ -1,0 +1,7 @@
+main*
+*.sh
+*.ipynb
+data/*
+plots/*
+notes/*
+__pycache__/*
