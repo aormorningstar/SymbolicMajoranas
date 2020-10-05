@@ -1,4 +1,3 @@
-import Base: *, length
 
 mutable struct MajoranaProduct
     #=
@@ -9,7 +8,7 @@ mutable struct MajoranaProduct
 
 end
 
-function MajoranaProduct()
+function MajoranaProduct()::MajoranaProduct
     #=
     Construct an empty product (the identity).
     =#
@@ -65,12 +64,29 @@ function normal_order!(op::MajoranaProduct)::Integer
             for j in 1:l-i
 
                 if op.sites[j] > op.sites[j+1]
-                    op.sites[j:1:j+1] = op.sites[j:-1:j+1] # swap sites
+                    op.sites[j:1:j+1] = op.sites[j+1:-1:j] # swap sites
                     phase += 2 # majoranas anticommute (i^2 = -1)
                 end
 
             end
         end
+
+        # pair annihilate repeated sites (majoranas square to 1)
+        keep = trues(l)
+
+        i = 1
+        while i < l
+
+            if op.sites[i] == op.sites[i+1]
+                keep[i:i+1] .= false
+                i += 2
+            else
+                i += 1
+            end
+
+        end
+
+        op.sites = op.sites[keep]
 
     end
 

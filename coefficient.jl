@@ -1,5 +1,3 @@
-include("BareCoefficient.jl")
-import Base: *, zero
 
 mutable struct Coefficient
     #=
@@ -13,7 +11,7 @@ mutable struct Coefficient
 
 end
 
-function zero(T::Type{Coefficient})
+function zero(T::Type{Coefficient})::Coefficient
     #=
     A standard zero coefficient.
     =#

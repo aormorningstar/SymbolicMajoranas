@@ -1,6 +1,3 @@
-include("MajoranaProduct.jl")
-include("CoefficientSum.jl")
-import Base: *, zero
 
 mutable struct Term
     #=
@@ -8,11 +5,11 @@ mutable struct Term
     =#
 
     op::MajoranaProduct # the product of majorana operators
-    coeffsum::Vector{CoefficientSum} # the sum of coefficients in front of the operator
+    coeff::CoefficientSum # the sum of coefficients in front of the operator
 
 end
 
-function zero(T::Type{Term})
+function zero(T::Type{Term})::Term
     #=
     A standard zero Term.
     =#
@@ -27,17 +24,17 @@ function *(t1::Term, t2::Term)::Term
     =#
 
     newop, phase = t1.op * t2.op # product automatically normal orders
-    newcoeffsum = t1.coeffsum * t2.coeffsum
-    phase_change!(newcoeffsum, phase)
-    newterm = Term(newop, newcoeffsum)
+    newcoeff = t1.coeff * t2.coeff
+    addphase!(newcoeff, phase)
+    newterm = Term(newop, newcoeff)
 
     newterm
 
 end
 
-multnum!(t::Term, mnum::Real)::Nothing = multnum!(t.coeffsum, mnum)
+multnum!(t::Term, mnum::Real)::Nothing = multnum!(t.coeff, mnum)
 
-addphase!(t::Term, aphase::Integer)::Nothing = addphase(t.coeffsum, aphase)
+addphase!(t::Term, aphase::Integer)::Nothing = addphase!(t.coeff, aphase)
 
 function commutator(t1::Term, t2::Term)::Term
     #=

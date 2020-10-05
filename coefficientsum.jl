@@ -1,5 +1,3 @@
-include("Coefficient.jl")
-import Base: *, iterate, eltype, length, getindex, zero
 
 mutable struct CoefficientSum
     #=
@@ -10,12 +8,12 @@ mutable struct CoefficientSum
 
 end
 
-function zero(T::Type{CoefficientSum})
+function zero(T::Type{CoefficientSum})::CoefficientSum
     #=
     A standard zero coefficient sum.
     =#
 
-    CoefficientSum(zero(Coefficient))
+    CoefficientSum([zero(Coefficient)])
 
 end
 
@@ -51,7 +49,7 @@ function *(cs1::CoefficientSum, cs2::CoefficientSum)::CoefficientSum
     Product of coefficient sums.
     =#
 
-    newcoeffs = [c1*c2 for c1 in cs1, c2 in cs2]
+    newcoeffs = vec([c1*c2 for c1 in cs1, c2 in cs2])
     newcoeffsum = CoefficientSum(newcoeffs)
 
     # simplify the result
@@ -61,7 +59,7 @@ function *(cs1::CoefficientSum, cs2::CoefficientSum)::CoefficientSum
 
 end
 
-function multnum!(c::CoefficientSum, mnum::Real)::Nothing
+function multnum!(cs::CoefficientSum, mnum::Real)::Nothing
     #=
     Multiply the numerical prefactors of all coefficients.
     =#
