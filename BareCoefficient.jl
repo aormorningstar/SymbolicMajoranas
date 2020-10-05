@@ -1,3 +1,4 @@
+import Base: isless
 
 struct BareCoefficient
     #=
@@ -5,6 +6,15 @@ struct BareCoefficient
     =#
 
     site::Integer # the site of the corresponding bare operator
-    ind::Integer # the index of the corresponding bare operator in an accompanying list
+    type::Integer # the type of the corresponding bare operator
+
+end
+
+function isless(bc1::BareCoefficient, bc2::BareCoefficient)::Bool
+    #=
+    Compare two bare coefficients.
+    =#
+
+    bc1.site < bc2.site || (bc1.site == bc2.site && bc1.type < bc2.type)
 
 end

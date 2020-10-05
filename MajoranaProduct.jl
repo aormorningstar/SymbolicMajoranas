@@ -1,3 +1,4 @@
+import Base: *, length
 
 mutable struct MajoranaProduct
     #=
@@ -5,6 +6,17 @@ mutable struct MajoranaProduct
     =#
 
     sites::Vector{Integer} # Majorana operators on these sites
+
+end
+
+function MajoranaProduct()
+    #=
+    Construct an empty product (the identity).
+    =#
+
+    sites = Int64[]
+
+    MajoranaProduct(sites)
 
 end
 
@@ -62,6 +74,40 @@ function normal_order!(op::MajoranaProduct)::Integer
 
     end
 
-    phase % 4 # phase defined mod 4 because i^4 = 1
+    phase
+
+end
+
+function *(op1::MajoranaProduct, op2::MajoranaProduct)::Tuple{MajoranaProduct, Integer}
+    #=
+    Multiply two Majorana products.
+    =#
+
+    newsites = vcat(op1.sites, op2.sites)
+    newop = MajoranaProduct(newsites)
+
+    # normal order the new result
+    phase = normal_order!(newop)
+
+    newop, phase
+
+end
+
+function commute(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
+    #=
+    Do these products of Majorana operators commute?
+    =#
+
+    # note op12 must equal op21
+    op12, phase12 = op1*op2
+    op21, phase21 = op2*op1
+
+    comm = false # default, they don't commute
+    phasemod = 4
+    if phase12%phasemod == phase21%phasemod # then they do commute
+        comm = true
+    end
+
+    comm
 
 end
