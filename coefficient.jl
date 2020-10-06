@@ -11,6 +11,29 @@ mutable struct Coefficient
 
 end
 
+function multnum!(c::Coefficient, mnum::Real)::Nothing
+    #=
+    Multiply the numerical prefactor.
+    =#
+
+    c.num *= mnum
+
+    nothing
+
+end
+
+function addphase!(c::Coefficient, aphase::Integer)::Nothing
+    #=
+    Add to the phase of the coefficient.
+    =#
+
+    phasemod = 4
+    c.phase = (c.phase + aphase)%phasemod
+
+    nothing
+
+end
+
 zero(T::Type{Coefficient})::Coefficient = Coefficient(0, 0, BareCoefficient[], BareCoefficient[])
 
 function canonicalize!(c::Coefficient)::Nothing
@@ -60,28 +83,5 @@ function *(c1::Coefficient, c2::Coefficient)::Coefficient
     canonicalize!(newcoeff)
 
     newcoeff
-
-end
-
-function multnum!(c::Coefficient, mnum::Real)::Nothing
-    #=
-    Multiply the numerical prefactor.
-    =#
-
-    c.num *= mnum
-
-    nothing
-
-end
-
-function addphase!(c::Coefficient, aphase::Integer)::Nothing
-    #=
-    Add to the phase of the coefficient.
-    =#
-
-    phasemod = 4
-    c.phase = (c.phase + aphase)%phasemod
-
-    nothing
 
 end

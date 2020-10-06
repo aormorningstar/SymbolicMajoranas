@@ -9,14 +9,11 @@ mutable struct Term
 
 end
 
-function zero(T::Type{Term})::Term
-    #=
-    A standard zero Term.
-    =#
+multnum!(t::Term, mnum::Real)::Nothing = multnum!(t.coeff, mnum)
 
-    Term(MajoranaProduct(), zero(CoefficientSum))
+addphase!(t::Term, aphase::Integer)::Nothing = addphase!(t.coeff, aphase)
 
-end
+zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
 
 function canonicalize!(t::Term)::Nothing
     #=
@@ -44,10 +41,6 @@ function *(t1::Term, t2::Term)::Term
     newterm
 
 end
-
-multnum!(t::Term, mnum::Real)::Nothing = multnum!(t.coeff, mnum)
-
-addphase!(t::Term, aphase::Integer)::Nothing = addphase!(t.coeff, aphase)
 
 function commutator(t1::Term, t2::Term)::Term
     #=

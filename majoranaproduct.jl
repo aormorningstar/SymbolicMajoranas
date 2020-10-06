@@ -19,8 +19,6 @@ function MajoranaProduct()::MajoranaProduct
 
 end
 
-length(op::MajoranaProduct)::Integer = length(op.sites)
-
 function is_canonical(op::MajoranaProduct)::Bool
     #=
     Check if term is in canonical form.

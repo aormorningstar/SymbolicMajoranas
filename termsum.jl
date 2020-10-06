@@ -10,25 +10,11 @@ mutable struct TermSum <: AbstractArray{Term, 1}
 end
 
 # interface with abstract array
-size(ts::TermSum)::Tuple{Vararg{Integer}} = size(ts.terms)
+size(ts::TermSum)::Tuple{Integer} = size(ts.terms)
 
 getindex(ts::TermSum, i::Vararg{Integer})::Term = getindex(ts.terms, i)
 
 setindex!(ts::TermSum, t::Term, i::Vararg{Integer})::TermSum = setindex!(ts.terms, t, i)
-
-# getindex(ts::TermSum, i::Integer)::Coefficient = ts.terms[i]
-# eltype(ts::TermSum)::DataType = Term
-# length(ts::TermSum)::Integer = length(ts.terms)
-#
-# function iterate(ts::TermSum, i::Integer=0)::Union{Nothing, Tuple{Term, Integer}}
-#
-#     if i >= length(cs)
-#         return nothing
-#     else
-#         return (ts[i+1], i+1)
-#     end
-#
-# end
 
 function simplify!(ts::TermSum)::Nothing
     #=
