@@ -1,5 +1,5 @@
 
-mutable struct TermSum
+mutable struct TermSum <: AbstractArray{Term, 1}
     #=
     Sum of terms. An operator that is a sum of Majorana products with coefficients can be
     represented by this type.
@@ -9,23 +9,26 @@ mutable struct TermSum
 
 end
 
-# iterating over terms in term sums ----------------------------------------------------------------
+# interface with abstract array
+size(ts::TermSum)::Tuple{Vararg{Integer}} = size(ts.terms)
 
-getindex(ts::TermSum, i::Integer)::Coefficient = ts.terms[i]
-eltype(ts::TermSum)::DataType = Term
-length(ts::TermSum)::Integer = length(ts.terms)
+getindex(ts::TermSum, i::Vararg{Integer})::Term = getindex(ts.terms, i)
 
-function iterate(ts::TermSum, i::Integer=0)::Union{Nothing, Tuple{Term, Integer}}
+setindex!(ts::TermSum, t::Term, i::Vararg{Integer})::TermSum = setindex!(ts.terms, t, i)
 
-    if i >= length(cs)
-        return nothing
-    else
-        return (ts[i+1], i+1)
-    end
-
-end
-
-#---------------------------------------------------------------------------------------------------
+# getindex(ts::TermSum, i::Integer)::Coefficient = ts.terms[i]
+# eltype(ts::TermSum)::DataType = Term
+# length(ts::TermSum)::Integer = length(ts.terms)
+#
+# function iterate(ts::TermSum, i::Integer=0)::Union{Nothing, Tuple{Term, Integer}}
+#
+#     if i >= length(cs)
+#         return nothing
+#     else
+#         return (ts[i+1], i+1)
+#     end
+#
+# end
 
 function simplify!(ts::TermSum)::Nothing
     #=

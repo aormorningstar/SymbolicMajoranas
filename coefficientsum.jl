@@ -1,5 +1,5 @@
 
-mutable struct CoefficientSum
+mutable struct CoefficientSum <: AbstractArray{Coefficient, 1}
     #=
     Symbolic sum of symbolic coefficients paired with the same operator in a Majorana Hamiltonian.
     =#
@@ -8,25 +8,30 @@ mutable struct CoefficientSum
 
 end
 
+# interface with abstract array
+size(cs::CoefficientSum)::Tuple{Vararg{Integer}} = size(cs.coeffs)
+
+getindex(cs::CoefficientSum, i::Vararg{Integer})::Coefficient = getindex(cs.coeffs, i)
+
+setindex!(cs::CoefficientSum, c::Coefficient, i::Vararg{Integer})::CoefficientSum =
+setindex!(cs.coeffs, c, i)
+
+# a zero element
 zero(T::Type{CoefficientSum})::CoefficientSum = CoefficientSum([zero(Coefficient)])
 
-# iterating over coefficients in coefficient sums --------------------------------------------------
-
-getindex(cs::CoefficientSum, i::Integer)::Coefficient = cs.coeffs[i]
-eltype(cs::CoefficientSum)::DataType = Coefficient
-length(cs::CoefficientSum)::Integer = length(cs.coeffs)
-
-function iterate(cs::CoefficientSum, i::Integer=0)::Union{Nothing, Tuple{Coefficient, Integer}}
-
-    if i >= length(cs)
-        return nothing
-    else
-        return (cs[i+1], i+1)
-    end
-
-end
-
-#---------------------------------------------------------------------------------------------------
+# getindex(cs::CoefficientSum, i::Integer)::Coefficient = cs.coeffs[i]
+# eltype(cs::CoefficientSum)::DataType = Coefficient
+# length(cs::CoefficientSum)::Integer = length(cs.coeffs)
+#
+# function iterate(cs::CoefficientSum, i::Integer=0)::Union{Nothing, Tuple{Coefficient, Integer}}
+#
+#     if i >= length(cs)
+#         return nothing
+#     else
+#         return (cs[i+1], i+1)
+#     end
+#
+# end
 
 function simplify!(cs::CoefficientSum)::Nothing
     #=
@@ -44,7 +49,7 @@ function simplify!(cs::CoefficientSum)::Nothing
     end
 
     # if some coefficients differ only by their prefactor, add them up
-    
+
 
     nothing
 

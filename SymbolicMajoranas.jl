@@ -1,7 +1,7 @@
 
 # module SymbolicMajoranas
 
-import Base: *, isless, zero, iterate, eltype, length, getindex, ==, +
+import Base: *, isless, zero, iterate, eltype, size, length, getindex, setindex!, ==, +
 
 # export BareCoefficient, Coefficient, canonicalize!, CoefficientSum, simplify!, MajoranaProduct,
 # is_canonical, commute, Term, multnum!, addphase!, commutator
