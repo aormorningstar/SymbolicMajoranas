@@ -8,14 +8,7 @@ mutable struct CoefficientSum
 
 end
 
-function zero(T::Type{CoefficientSum})::CoefficientSum
-    #=
-    A standard zero coefficient sum.
-    =#
-
-    CoefficientSum([zero(Coefficient)])
-
-end
+zero(T::Type{CoefficientSum})::CoefficientSum = CoefficientSum([zero(Coefficient)])
 
 # iterating over coefficients in coefficient sums --------------------------------------------------
 
@@ -37,8 +30,21 @@ end
 
 function simplify!(cs::CoefficientSum)::Nothing
     #=
-    Simplify a sum of coefficients. Ex: collect common coefficients.
+    Simplify the coefficeint sum.
     =#
+
+    #=
+    NOTE
+    Need to complete this code.
+    =#
+
+    # put all coefficents into canonical form
+    for c in cs
+        canonicalize!(c)
+    end
+
+    # if some coefficients differ only by their prefactor, add them up
+    
 
     nothing
 
@@ -49,13 +55,25 @@ function *(cs1::CoefficientSum, cs2::CoefficientSum)::CoefficientSum
     Product of coefficient sums.
     =#
 
-    newcoeffs = vec([c1*c2 for c1 in cs1, c2 in cs2])
+    newcoeffs = [c1*c2 for c1 in cs1, c2 in cs2 if true] # a 1d array
     newcoeffsum = CoefficientSum(newcoeffs)
 
     # simplify the result
     simplify!(newcoeffsum)
 
     newcoeffsum
+
+end
+
+function +(cs1::CoefficientSum, cs2::CoefficientSum)::CoefficientSum
+    #=
+    Add coefficient sums.
+    =#
+
+    newcs = CoefficientSum(vcat(cs1.coeffs, cs2.coeffs))
+    simplify!(newcs)
+
+    newcs
 
 end
 

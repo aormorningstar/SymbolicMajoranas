@@ -19,18 +19,11 @@ function MajoranaProduct()::MajoranaProduct
 
 end
 
-function length(op::MajoranaProduct)::Integer
+length(op::MajoranaProduct)::Integer = length(op.sites)
+
+function is_canonical(op::MajoranaProduct)::Bool
     #=
-    Number of Majorana operators in a product.
-    =#
-
-    length(op.sites)
-
-end
-
-function is_normal_ordered(op::MajoranaProduct)::Bool
-    #=
-    Check if term is normal ordered.
+    Check if term is in canonical form.
     =#
 
     no = true
@@ -47,15 +40,15 @@ function is_normal_ordered(op::MajoranaProduct)::Bool
 
 end
 
-function normal_order!(op::MajoranaProduct)::Integer
+function canonicalize!(op::MajoranaProduct)::Integer
     #=
-    Normal order a product of Majorana operators.
+    Put product of Majorana operators into canonical form.
     =#
 
     phase = 0 # coefficent i^phase
 
     # normal order if not already true
-    if !is_normal_ordered(op)
+    if !is_canonical(op)
 
         # bubble sort and keep track of minus signs from commuting majoranas
         l = length(op)
@@ -102,8 +95,8 @@ function *(op1::MajoranaProduct, op2::MajoranaProduct)::Tuple{MajoranaProduct, I
     newsites = vcat(op1.sites, op2.sites)
     newop = MajoranaProduct(newsites)
 
-    # normal order the new result
-    phase = normal_order!(newop)
+    # put the new result into canonical form
+    phase = canonicalize!(newop)
 
     newop, phase
 
@@ -118,7 +111,8 @@ function commute(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
     op12, phase12 = op1*op2
     op21, phase21 = op2*op1
 
-    comm = false # default, they don't commute
+    comm = false # default they don't commute
+
     phasemod = 4
     if phase12%phasemod == phase21%phasemod # then they do commute
         comm = true

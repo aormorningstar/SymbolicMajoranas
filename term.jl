@@ -18,12 +18,25 @@ function zero(T::Type{Term})::Term
 
 end
 
+function canonicalize!(t::Term)::Nothing
+    #=
+    Canonicalize the majorana product and simplify the coefficient.
+    =#
+
+    phase = canonicalize!(t.op)
+    addphase!(t.coeff, phase)
+    simplify!(t.coeff)
+
+    nothing
+
+end
+
 function *(t1::Term, t2::Term)::Term
     #=
     Multiply two terms.
     =#
 
-    newop, phase = t1.op * t2.op # product automatically normal orders
+    newop, phase = t1.op * t2.op # product automatically in canonical form
     newcoeff = t1.coeff * t2.coeff
     addphase!(newcoeff, phase)
     newterm = Term(newop, newcoeff)

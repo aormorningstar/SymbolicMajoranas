@@ -11,9 +11,18 @@ end
 
 function isless(bc1::BareCoefficient, bc2::BareCoefficient)::Bool
     #=
-    Compare two bare coefficients.
+    Are two bare coefficients ordered?
     =#
 
     bc1.site < bc2.site || (bc1.site == bc2.site && bc1.type < bc2.type)
+
+end
+
+function (==)(bc1::BareCoefficient, bc2::BareCoefficient)::Bool
+    #=
+    Do two bare coefficients represent the same value?
+    =#
+
+    bc1.site == bc2.site && bc1.type == bc2.type
 
 end

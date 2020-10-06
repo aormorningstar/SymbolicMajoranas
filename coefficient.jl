@@ -11,25 +11,35 @@ mutable struct Coefficient
 
 end
 
-function zero(T::Type{Coefficient})::Coefficient
-    #=
-    A standard zero coefficient.
-    =#
-
-    Coefficient(0, 0, BareCoefficient[], BareCoefficient[])
-
-end
+zero(T::Type{Coefficient})::Coefficient = Coefficient(0, 0, BareCoefficient[], BareCoefficient[])
 
 function canonicalize!(c::Coefficient)::Nothing
     #=
-    Put the numerator and denominator into a canonical order.
+    Put the numerator and denominator into a canonical form.
     =#
 
-    c.phase %= 4
+    @assert c.num >= 0 "Coefficient.num must be nonnegative"
+
+    phasemod = 4
+    c.phase %= phasemod
     sort!(c.numerator)
     sort!(c.denominator)
 
-    @assert c.num >= 0 "Coefficient.num must be nonnegative"
+    # if common factors in numerator and denominator, allow them to cancel out
+    keep_n = trues(length(c.numerator))
+    keep_d = trues(length(c.denominator))
+
+    for (i, bci) in enumerate(c.numerator), (j, bcj) in enumerate(c.denominator)
+
+        if bci == bcj && keep_n[i] && keep_d[j] # cancel if not already
+            keep_n[i] = false
+            keep_d[j] = false
+        end
+
+    end
+
+    c.numerator = c.numerator[keep_n]
+    c.denominator = c.denominator[keep_d]
 
     nothing
 
