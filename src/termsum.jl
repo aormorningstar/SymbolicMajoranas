@@ -23,16 +23,14 @@ function simplify!(ts::TermSum)::Nothing
 
     # put all majorana products into canonical form
     for t in ts
-        canonicalize!(t)
+        simplify!(t)
     end
 
-    # collect terms with common majorana products; add those coefficient sums up
-    # TODO
+    # if terms can be added together, do so
+    newterms = _compresssum(ts)
 
-    # simplify all the coefficient sums
-    for t in ts
-        simplify!(t.coeff)
-    end
+    # replace terms with simplified version
+    ts.terms = newterms
 
     nothing
 

@@ -1,6 +1,6 @@
 # SymbolicMajoranas
 
-Functionality for working symbolically with operators that are sums of products of Majorana operators on the sites of a lattice. It's still under development.
+Functionality for working symbolically with operators that are sums of products of Majorana operators on the sites of a lattice. It's still a work in progress.
 
 ## Author
 

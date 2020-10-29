@@ -13,9 +13,9 @@ times!(t::Term, mnum::ExactType)::Nothing = times!(t.coeff, mnum)
 
 zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
 
-function canonicalize!(t::Term)::Nothing
+function simplify!(t::Term)::Nothing
     #=
-    Canonicalize the majorana product and simplify the coefficient.
+    Simplify the majorana product and coefficient sum.
     =#
 
     num = canonicalize!(t.op)
@@ -68,14 +68,14 @@ function addable(t1::Term, t2::Term)::Bool
 
 end
 
-function add!(t1::Term, t2::Term)::Term
+function +(t1::Term, t2::Term)::Term
     #=
-    Add t2 to t1 in place. Only works when they are addable.
+    Add t1 and t2. Only works when they are addable.
     =#
 
     @assert addable(t1, t2) "Cannot add terms."
 
     # add the coefficient sums
-    t1.coeff = t1.coeff + t2.coeff
+    Term(deepcopy(t1.op), t1.coeff + t2.coeff)
 
 end

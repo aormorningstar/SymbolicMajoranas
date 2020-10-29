@@ -82,14 +82,14 @@ function addable(c1::Coefficient, c2::Coefficient)::Bool
 
 end
 
-function add!(c1::Coefficient, c2::Coefficient)::Coefficient
+function +(c1::Coefficient, c2::Coefficient)::Coefficient
     #=
-    Add c2 to c1 in place. Only works when they are addable.
+    Add c1 and c2. Only works when they are addable.
     =#
 
     @assert addable(c1, c2) "Cannot add coefficients."
 
     # add the rational coefficients
-    c1.num += c2.num
+    Coefficient(c1.num + c2.num, deepcopy(c1.top), deepcopy(c1.bottom))
 
 end

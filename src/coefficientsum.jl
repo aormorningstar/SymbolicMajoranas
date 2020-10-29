@@ -41,7 +41,10 @@ function simplify!(cs::CoefficientSum)::Nothing
     end
 
     # if coefficients can be added together, do so
-    # TODO
+    newcoeffs = _compresssum(cs)
+
+    # replace coefficients with simplified version
+    cs.coeffs = newcoeffs
 
     nothing
 
