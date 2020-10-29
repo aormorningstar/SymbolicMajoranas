@@ -4,13 +4,13 @@ mutable struct Coefficient
     Symbolic coefficient of a term in the Majorana Hamiltonian.
     =#
 
-    num::ExactType # numeric prefactor
+    num::ExactNumber # numeric prefactor
     top::Vector{BareCoefficient} # bare coefficients in the numerator
     bot::Vector{BareCoefficient} # bare coefficients in the denominator
 
 end
 
-function times!(c::Coefficient, mnum::ExactType)::Nothing
+function times!(c::Coefficient, mnum::ExactNumber)::Nothing
     #=
     Multiply the numerical prefactor in place.
     =#
@@ -21,7 +21,7 @@ function times!(c::Coefficient, mnum::ExactType)::Nothing
 
 end
 
-zero(T::Type{Coefficient})::Coefficient = Coefficient(zero(ExactType), BareCoefficient[],
+zero(T::Type{Coefficient})::Coefficient = Coefficient(zero(ExactNumber), BareCoefficient[],
 BareCoefficient[])
 
 function canonicalize!(c::Coefficient)::Nothing

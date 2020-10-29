@@ -14,6 +14,7 @@ function isless(bc1::BareCoefficient, bc2::BareCoefficient)::Bool
     Are two bare coefficients ordered?
     =#
 
+    # sort by site first, then by type
     bc1.site < bc2.site || (bc1.site == bc2.site && bc1.type < bc2.type)
 
 end
@@ -23,6 +24,7 @@ function (==)(bc1::BareCoefficient, bc2::BareCoefficient)::Bool
     Do two bare coefficients represent the same value?
     =#
 
+    # site and type must both match
     bc1.site == bc2.site && bc1.type == bc2.type
 
 end

@@ -9,20 +9,20 @@ function _equalarrays(a1::AbstractArray{T}, a2::AbstractArray{T}) where T <: Any
 end
 
 # exact numeric type
-ExactType = Union{Complex{Rational{Integer}}, Rational{Integer}, Integer}
+ExactNumber = Union{Complex{Rational{Integer}}, Rational{Integer}, Integer}
 
-function _compresssum(a::AbstractArray{T, 1}) where T
+function _compresssum(v::AbstractArray{T, 1}) where T
 
     # if elements can be added together, do so
-    ca = T[]
-    for e1 in a
+    cv = Vector{T}()
+    for e1 in v
 
         # try to add this element to one of the previous ones
         matched = false
-        for (i, e2) in enumerate(ca)
+        for (i, e2) in enumerate(cv)
 
             if addable(e1, e2)  # we found a place to add to
-                ca[i] = e1 + e2
+                cv[i] = e1 + e2
                 matched = true
                 break
             end
@@ -30,11 +30,11 @@ function _compresssum(a::AbstractArray{T, 1}) where T
         end
 
         if !matched # we didn't find a spot to add to, so make a new entry
-            push!(ca, e1)
+            push!(cv, e1)
         end
 
     end
 
-    ca
+    cv
 
 end

@@ -91,7 +91,7 @@ function *(op1::MajoranaProduct, op2::MajoranaProduct)::Tuple{MajoranaProduct, I
     Multiply two Majorana products.
     =#
 
-    newsites = vcat(op1.sites, op2.sites)
+    newsites = [op1.sites; op2.sites]
     newop = MajoranaProduct(newsites)
 
     # put the new result into canonical form

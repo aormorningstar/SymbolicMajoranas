@@ -21,7 +21,7 @@ function simplify!(ts::TermSum)::Nothing
     Simplify the term sum.
     =#
 
-    # put all majorana products into canonical form
+    # put all majorana products into simplified form
     for t in ts
         simplify!(t)
     end

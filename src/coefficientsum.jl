@@ -16,7 +16,7 @@ getindex(cs::CoefficientSum, i::Vararg{Integer})::Coefficient = getindex(cs.coef
 setindex!(cs::CoefficientSum, c::Coefficient, i::Vararg{Integer})::CoefficientSum =
 setindex!(cs.coeffs, c, i)
 
-function times!(cs::CoefficientSum, mnum::ExactType)::Nothing
+function times!(cs::CoefficientSum, mnum::ExactNumber)::Nothing
     #=
     Multiply the numerical prefactors of all coefficients.
     =#
@@ -24,6 +24,8 @@ function times!(cs::CoefficientSum, mnum::ExactType)::Nothing
     for c in cs
         times!(c, mnum)
     end
+
+    nothing
 
 end
 

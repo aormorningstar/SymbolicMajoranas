@@ -9,7 +9,7 @@ mutable struct Term
 
 end
 
-times!(t::Term, mnum::ExactType)::Nothing = times!(t.coeff, mnum)
+times!(t::Term, mnum::ExactNumber)::Nothing = times!(t.coeff, mnum)
 
 zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
 
@@ -64,7 +64,7 @@ function addable(t1::Term, t2::Term)::Bool
     Can we add these two terms and get a single resultant term?
     =#
 
-    _equalarrays(t1.op, t2.op)
+    t1.op == t2.op
 
 end
 
