@@ -33,20 +33,20 @@ function canonicalize!(c::Coefficient)::Nothing
     sort!(c.bot)
 
     # if common factors in numerator and denominator, allow them to cancel out
-    keep_t = trues(length(c.top))
-    keep_b = trues(length(c.bot))
+    keeptop = trues(length(c.top))
+    keepbot = trues(length(c.bot))
 
     for (i, bci) in enumerate(c.top), (j, bcj) in enumerate(c.bot)
 
-        if bci == bcj && keep_t[i] && keep_b[j] # cancel if not already
-            keep_t[i] = false
-            keep_b[j] = false
+        if bci == bcj && keeptop[i] && keepbot[j] # cancel if not already
+            keeptop[i] = false
+            keepbot[j] = false
         end
 
     end
 
-    c.top = c.top[keep_t]
-    c.bot = c.bot[keep_b]
+    c.top = c.top[keeptop]
+    c.bot = c.bot[keepbot]
 
     nothing
 
@@ -90,6 +90,6 @@ function +(c1::Coefficient, c2::Coefficient)::Coefficient
     @assert addable(c1, c2) "Cannot add coefficients."
 
     # add the rational coefficients
-    Coefficient(c1.num + c2.num, deepcopy(c1.top), deepcopy(c1.bottom))
+    Coefficient(c1.num + c2.num, deepcopy(c1.top), deepcopy(c1.bot))
 
 end

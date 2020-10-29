@@ -24,11 +24,11 @@ function is_canonical(op::MajoranaProduct)::Bool
     Check if term is in canonical form.
     =#
 
-    ic = true
+    ic = true # is canonical?
 
     for i in 1:length(op)-1
 
-        if op.sites[i+1] <= op.sites[i]
+        if op.sites[i+1] <= op.sites[i] # out of canonical form
             ic = false
             break
         end
@@ -106,7 +106,7 @@ function commute(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
     Do these products of Majorana operators commute?
     =#
 
-    # note op12 must equal op21
+    # note op12 will equal op21
     op12, num12 = op1 * op2
     op21, num21 = op2 * op1
 

@@ -51,7 +51,7 @@ function commutator(t1::Term, t2::Term)::Term
     if comm # return a zero term
         newterm = zero(Term)
     else # terms anticommute
-        newterm = t1*t2
+        newterm = t1 * t2
         times!(newterm, 2)
     end
 
