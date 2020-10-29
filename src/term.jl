@@ -9,9 +9,7 @@ mutable struct Term
 
 end
 
-multnum!(t::Term, mnum::Union{Rational{Integer}, Integer})::Nothing = multnum!(t.coeff, mnum)
-
-addphase!(t::Term, aphase::Integer)::Nothing = addphase!(t.coeff, aphase)
+times!(t::Term, mnum::ExactType)::Nothing = times!(t.coeff, mnum)
 
 zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
 
@@ -20,8 +18,8 @@ function canonicalize!(t::Term)::Nothing
     Canonicalize the majorana product and simplify the coefficient.
     =#
 
-    phase = canonicalize!(t.op)
-    addphase!(t.coeff, phase)
+    num = canonicalize!(t.op)
+    times!(t.coeff, num)
     simplify!(t.coeff)
 
     nothing
@@ -33,12 +31,12 @@ function *(t1::Term, t2::Term)::Term
     Multiply two terms.
     =#
 
-    newop, phase = t1.op * t2.op # product automatically in canonical form
-    newcoeff = t1.coeff * t2.coeff
-    addphase!(newcoeff, phase)
-    newterm = Term(newop, newcoeff)
+    newo, num = t1.op * t2.op # operator, sign from normal ordering
+    newc = t1.coeff * t2.coeff
+    times!(newc, num)
+    newt = Term(newo, newc)
 
-    newterm
+    newt
 
 end
 
@@ -54,9 +52,30 @@ function commutator(t1::Term, t2::Term)::Term
         newterm = zero(Term)
     else # terms anticommute
         newterm = t1*t2
-        multnum!(newterm, 2)
+        times!(newterm, 2)
     end
 
     newterm
+
+end
+
+function addable(t1::Term, t2::Term)::Bool
+    #=
+    Can we add these two terms and get a single resultant term?
+    =#
+
+    _equalarrays(t1.op, t2.op)
+
+end
+
+function add!(t1::Term, t2::Term)::Term
+    #=
+    Add t2 to t1 in place. Only works when they are addable.
+    =#
+
+    @assert addable(t1, t2) "Cannot add terms."
+
+    # add the coefficient sums
+    t1.coeff = t1.coeff + t2.coeff
 
 end

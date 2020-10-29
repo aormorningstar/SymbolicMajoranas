@@ -1,7 +1,7 @@
 
 mutable struct CoefficientSum <: AbstractArray{Coefficient, 1}
     #=
-    Symbolic sum of symbolic coefficients paired with the same operator in a Majorana Hamiltonian.
+    Symbolic sum of symbolic coefficients.
     =#
 
     coeffs::Vector{Coefficient}
@@ -16,24 +16,13 @@ getindex(cs::CoefficientSum, i::Vararg{Integer})::Coefficient = getindex(cs.coef
 setindex!(cs::CoefficientSum, c::Coefficient, i::Vararg{Integer})::CoefficientSum =
 setindex!(cs.coeffs, c, i)
 
-function multnum!(cs::CoefficientSum, mnum::Union{Rational{Integer}, Integer})::Nothing
+function times!(cs::CoefficientSum, mnum::ExactType)::Nothing
     #=
     Multiply the numerical prefactors of all coefficients.
     =#
 
     for c in cs
-        multnum!(c, mnum)
-    end
-
-end
-
-function addphase!(cs::CoefficientSum, aphase::Integer)::Nothing
-    #=
-    Add the same phase to the phase of all coefficients in the sum.
-    =#
-
-    for c in cs
-        addphase!(c, aphase)
+        times!(c, mnum)
     end
 
 end
@@ -51,7 +40,7 @@ function simplify!(cs::CoefficientSum)::Nothing
         canonicalize!(c)
     end
 
-    # if some coefficients differ only by their prefactor, add them up
+    # if coefficients can be added together, do so
     # TODO
 
     nothing
@@ -78,7 +67,7 @@ function +(cs1::CoefficientSum, cs2::CoefficientSum)::CoefficientSum
     Add coefficient sums.
     =#
 
-    newcs = CoefficientSum(vcat(cs1.coeffs, cs2.coeffs))
+    newcs = CoefficientSum([cs1.coeffs; cs2.coeffs])
 
     # simplify the result
     simplify!(newcs)

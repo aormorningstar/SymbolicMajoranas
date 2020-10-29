@@ -44,7 +44,7 @@ function canonicalize!(op::MajoranaProduct)::Integer
     Put product of Majorana operators into canonical form.
     =#
 
-    phase = 0 # coefficent i^phase
+    num = 1 # will produce a factor of +1 or -1
 
     # normal order if not already true
     if !is_canonical(op)
@@ -57,7 +57,7 @@ function canonicalize!(op::MajoranaProduct)::Integer
 
                 if op.sites[j] > op.sites[j+1]
                     op.sites[j:1:j+1] = op.sites[j+1:-1:j] # swap sites
-                    phase += 2 # majoranas anticommute (i^2 = -1)
+                    num *= -1 # majoranas anticommute
                 end
 
             end
@@ -82,7 +82,7 @@ function canonicalize!(op::MajoranaProduct)::Integer
 
     end
 
-    phase
+    num
 
 end
 
@@ -95,9 +95,9 @@ function *(op1::MajoranaProduct, op2::MajoranaProduct)::Tuple{MajoranaProduct, I
     newop = MajoranaProduct(newsites)
 
     # put the new result into canonical form
-    phase = canonicalize!(newop)
+    num = canonicalize!(newop)
 
-    newop, phase
+    newop, num
 
 end
 
@@ -107,11 +107,11 @@ function commute(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
     =#
 
     # note op12 must equal op21
-    op12, phase12 = op1 * op2
-    op21, phase21 = op2 * op1
+    op12, num12 = op1 * op2
+    op21, num21 = op2 * op1
 
-    # they commute if the phases are equal
-    phase12%PHASE_MOD == phase21%PHASE_MOD
+    # they commute if there's no relative minus sign
+    num12 == num21
 
 end
 
