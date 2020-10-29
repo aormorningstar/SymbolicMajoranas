@@ -9,12 +9,11 @@ mutable struct CoefficientSum <: AbstractArray{Coefficient, 1}
 end
 
 # interface with abstract array
-size(cs::CoefficientSum)::Tuple{Integer} = size(cs.coeffs)
+size(cs::CoefficientSum) = size(cs.coeffs)
 
-getindex(cs::CoefficientSum, i::Vararg{Integer})::Coefficient = getindex(cs.coeffs, i)
+getindex(cs::CoefficientSum, i::Integer) = getindex(cs.coeffs, i)
 
-setindex!(cs::CoefficientSum, c::Coefficient, i::Vararg{Integer})::CoefficientSum =
-setindex!(cs.coeffs, c, i)
+setindex!(cs::CoefficientSum, c::Coefficient, i::Integer) = setindex!(cs.coeffs, c, i)
 
 function times!(cs::CoefficientSum, mnum::ExactNumber)::Nothing
     #=

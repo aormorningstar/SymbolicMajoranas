@@ -9,7 +9,8 @@ function _equalarrays(a1::AbstractArray{T}, a2::AbstractArray{T}) where T <: Any
 end
 
 # exact numeric type
-ExactNumber = Union{Complex{Rational{Integer}}, Rational{Integer}, Integer}
+ExactNumber = Union{Complex{Rational{I1}}, Rational{I2}, I3, Complex{I4}} where I1 <: Integer where
+I2 <: Integer where I3 <: Integer where I4 <: Integer
 
 function _compresssum(v::AbstractArray{T, 1}) where T
 

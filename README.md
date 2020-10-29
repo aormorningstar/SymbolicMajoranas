@@ -5,6 +5,8 @@ Functionality for working symbolically with operators that are sums of products 
 ## TODO
 - I think I'm using arrays where tuples would be better. Fix this.
 - Check if some functions are better if they are not mutating. Also, some defined mutable types might be better off if they're made immutable.
+- Simplify and canonicalize methods should check if it is equal to the zero element of that type. If so, set all fields to values of zero element.
+- Implement nice printing.
 
 ## Author
 
