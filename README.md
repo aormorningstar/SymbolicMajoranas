@@ -2,6 +2,10 @@
 
 Functionality for working symbolically with operators that are sums of products of Majorana operators on the sites of a lattice. It's still a work in progress.
 
+## TODO
+- I think I'm using arrays where tuples would be better. Fix this.
+- Check if some functions are better if they are not mutating. Also, some defined mutable types might be better off if they're made immutable.
+
 ## Author
 
 Alan Morningstar
