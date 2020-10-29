@@ -21,18 +21,13 @@ function simplify!(ts::TermSum)::Nothing
     Simplify the term sum.
     =#
 
-    #=
-    NOTE
-    Need to complete this code.
-    =#
-
     # put all majorana products into canonical form
     for t in ts
         canonicalize!(t)
     end
 
     # collect terms with common majorana products; add those coefficient sums up
-
+    # TODO
 
     # simplify all the coefficient sums
     for t in ts

@@ -4,14 +4,14 @@ mutable struct Coefficient
     Symbolic coefficient of a term in the Majorana Hamiltonian.
     =#
 
-    num::Real # positive numerical prefactor
+    num::Rational{Integer} # rational prefactor
     phase::Integer # a factor i^phase; phase is defined mod 4
     numerator::Vector{BareCoefficient} # bare coefficients in the numerator
     denominator::Vector{BareCoefficient} # bare coefficients in the denom
 
 end
 
-function multnum!(c::Coefficient, mnum::Real)::Nothing
+function multnum!(c::Coefficient, mnum::Union{Rational{Integer}, Integer})::Nothing
     #=
     Multiply the numerical prefactor.
     =#
@@ -27,14 +27,14 @@ function addphase!(c::Coefficient, aphase::Integer)::Nothing
     Add to the phase of the coefficient.
     =#
 
-    phasemod = 4
-    c.phase = (c.phase + aphase)%phasemod
+    c.phase = (c.phase + aphase) % PHASE_MOD
 
     nothing
 
 end
 
-zero(T::Type{Coefficient})::Coefficient = Coefficient(0, 0, BareCoefficient[], BareCoefficient[])
+zero(T::Type{Coefficient})::Coefficient = Coefficient(zero(Rational{Integer}), 0,
+BareCoefficient[], BareCoefficient[])
 
 function canonicalize!(c::Coefficient)::Nothing
     #=
@@ -43,8 +43,7 @@ function canonicalize!(c::Coefficient)::Nothing
 
     @assert c.num >= 0 "Coefficient.num must be nonnegative"
 
-    phasemod = 4
-    c.phase %= phasemod
+    c.phase %= PHASE_MOD
     sort!(c.numerator)
     sort!(c.denominator)
 
@@ -85,3 +84,29 @@ function *(c1::Coefficient, c2::Coefficient)::Coefficient
     newcoeff
 
 end
+
+# function addable(c1::Coefficient, c2::Coefficient)::Bool
+#     #=
+#     Can we add these two coefficients and get a single resultant coefficient?
+#     =#
+#
+#     # compare phases, numerators, and denominators
+#     phase = c1.phase == c2.phase
+#     numer = _equalarrays(c1.numerator, c2.numerator)
+#     denom = _equalarrays(c1.denominator, c2.denominator)
+#
+#     phase & numer & denom
+#
+# end
+#
+# function +(c1::Coefficient, c2::Coefficient)::Coefficient
+#     #=
+#     Add coefficients. Only works when they are addable.
+#     =#
+#
+#     @assert addable(c1, c2) "Cannot add coefficients."
+#
+#     # add the rational coefficients
+#     Coefficient(c1.num + c2.num, c1.phase, c1.numerator, c1.denominator)
+#
+# end

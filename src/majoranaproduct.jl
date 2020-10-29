@@ -24,17 +24,18 @@ function is_canonical(op::MajoranaProduct)::Bool
     Check if term is in canonical form.
     =#
 
-    no = true
+    ic = true
 
     for i in 1:length(op)-1
 
         if op.sites[i+1] <= op.sites[i]
-            no = false
+            ic = false
+            break
         end
 
     end
 
-    no
+    ic
 
 end
 
@@ -106,16 +107,19 @@ function commute(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
     =#
 
     # note op12 must equal op21
-    op12, phase12 = op1*op2
-    op21, phase21 = op2*op1
+    op12, phase12 = op1 * op2
+    op21, phase21 = op2 * op1
 
-    comm = false # default they don't commute
+    # they commute if the phases are equal
+    phase12%PHASE_MOD == phase21%PHASE_MOD
 
-    phasemod = 4
-    if phase12%phasemod == phase21%phasemod # then they do commute
-        comm = true
-    end
+end
 
-    comm
+function (==)(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
+    #=
+    Are the operators equal?
+    =#
+
+    _equalarrays(op1.sites, op2.sites)
 
 end

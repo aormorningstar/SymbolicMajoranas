@@ -9,7 +9,7 @@ mutable struct Term
 
 end
 
-multnum!(t::Term, mnum::Real)::Nothing = multnum!(t.coeff, mnum)
+multnum!(t::Term, mnum::Union{Rational{Integer}, Integer})::Nothing = multnum!(t.coeff, mnum)
 
 addphase!(t::Term, aphase::Integer)::Nothing = addphase!(t.coeff, aphase)
 

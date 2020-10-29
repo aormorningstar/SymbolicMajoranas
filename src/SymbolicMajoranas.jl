@@ -1,10 +1,11 @@
 
-# module SymbolicMajoranas
-
 import Base: *, isless, zero, iterate, eltype, size, length, getindex, setindex!, ==, +
 
-# export BareCoefficient, Coefficient, canonicalize!, CoefficientSum, simplify!, MajoranaProduct,
-# is_canonical, commute, Term, multnum!, addphase!, commutator
+# Global constants
+const global PHASE_MOD = 4
+
+# Helper functions
+include("utils.jl")
 
 # Coefficients
 include("barecoefficient.jl")
@@ -17,5 +18,3 @@ include("majoranaproduct.jl")
 # Terms
 include("term.jl")
 include("termsum.jl")
-
-# end
