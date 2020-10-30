@@ -36,6 +36,34 @@ function simplify!(ts::TermSum)::Nothing
 
 end
 
+function times!(ts::TermSum, mnum::ExactNumber)::Nothing
+    #=
+    Multiply in place by a constant numerical factor.
+    =#
+
+    for t in ts
+        times!(t, mnum)
+    end
+
+    nothing
+
+end
+
+function *(ts1::TermSum, ts2::TermSum)::TermSum
+    #=
+    Multiply two sums of terms.
+    =#
+
+    newterms = [t1 * t2 for t1 in ts1, t2 in ts2 if true] # a 1d array
+    newts = TermSum(newterms)
+
+    # simplify the result
+    simplify!(newts)
+
+    newts
+
+end
+
 function commutator(ts1::TermSum, ts2::TermSum)::TermSum
     #=
     Commutator of term sums.
@@ -48,5 +76,19 @@ function commutator(ts1::TermSum, ts2::TermSum)::TermSum
     simplify!(newtermsum)
 
     newtermsum
+
+end
+
+function +(ts1::TermSum, ts2::TermSum)::TermSum
+    #=
+    Add term sums.
+    =#
+
+    newts = TermSum([ts1.terms; ts2.terms])
+
+    # simplify the result
+    simplify!(newts)
+
+    newts
 
 end
