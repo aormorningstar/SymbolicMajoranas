@@ -1,5 +1,6 @@
 
-import Base: *, ==, +, isless, iszero, zero, iterate, eltype, size, length, getindex, setindex!
+import Base: *, ==, +, isless, iszero, zero, iterate, eltype, size, length, getindex, setindex!,
+push!, empty!
 
 # Helper functions
 include("utils.jl")

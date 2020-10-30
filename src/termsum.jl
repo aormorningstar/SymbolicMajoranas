@@ -1,5 +1,5 @@
 
-mutable struct TermSum <: AbstractArray{Term, 1}
+mutable struct TermSum <: AbstractVector{Term}
     #=
     Sum of terms. An operator that is a sum of Majorana products with coefficients can be
     represented by this type.
@@ -16,13 +16,17 @@ getindex(ts::TermSum, i::Integer) = getindex(ts.terms, i)
 
 setindex!(ts::TermSum, t::Term, i::Integer) = setindex!(ts.terms, t, i)
 
+empty!(ts::TermSum) = empty!(ts.terms)
+
+push!(ts::TermSum, tms...) = push!(ts.terms, tms...)
+
 function zero!(ts::TermSum)
     #=
     Set to canonical zero.
     =#
 
-    empty!(ts.terms)
-    push!(ts.terms, zero(Term))
+    empty!(ts)
+    push!(ts, zero(Term))
 
     nothing
 
@@ -64,8 +68,7 @@ function drop!(ts::TermSum, f::Function)
     Drop terms for which a function returns true.
     =#
 
-    dr = f.(ts)
-    deleteat!(ts.terms, dr)
+    deleteat!(ts.terms, f.(ts))
 
     nothing
 

@@ -1,5 +1,5 @@
 
-mutable struct CoefficientSum <: AbstractArray{Coefficient, 1}
+mutable struct CoefficientSum <: AbstractVector{Coefficient}
     #=
     Symbolic sum of symbolic coefficients.
     =#
@@ -14,6 +14,10 @@ size(cs::CoefficientSum) = size(cs.coeffs)
 getindex(cs::CoefficientSum, i::Integer) = getindex(cs.coeffs, i)
 
 setindex!(cs::CoefficientSum, c::Coefficient, i::Integer) = setindex!(cs.coeffs, c, i)
+
+empty!(cs::CoefficientSum) = empty!(cs.coeffs)
+
+push!(cs::CoefficientSum, cfs...) = push!(cs.coeffs, cfs...)
 
 function times!(cs::CoefficientSum, mnum::ExactNumber)
     #=
@@ -34,8 +38,8 @@ function zero!(cs::CoefficientSum)
     Set to canonical zero.
     =#
 
-    empty!(cs.coeffs)
-    push!(cs.coeffs, zero(Coefficient))
+    empty!(cs)
+    push!(cs, zero(Coefficient))
 
     nothing
 
