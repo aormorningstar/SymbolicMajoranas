@@ -16,21 +16,56 @@ getindex(ts::TermSum, i::Integer) = getindex(ts.terms, i)
 
 setindex!(ts::TermSum, t::Term, i::Integer) = setindex!(ts.terms, t, i)
 
-function simplify!(ts::TermSum)::Nothing
+function zero!(ts::TermSum)::Nothing
     #=
-    Simplify the term sum.
+    Set to canonical zero.
     =#
 
-    # put all majorana products into simplified form
+    empty!(ts)
+    push!(ts, zero(Term))
+
+    nothing
+
+end
+
+function simplify!(ts::TermSum)::Nothing
+    #=
+    Simplify the sum of terms.
+    =#
+
+    # put all terms into simplified form
     for t in ts
         simplify!(t)
     end
 
-    # if terms can be added together, do so
+    # if coefficients can be added together, do so
     newterms = _compresssum(ts)
 
-    # replace terms with simplified version
-    ts.terms = newterms
+    # find the zeros
+    zs = iszero!.(newterms)
+
+    if all(zs)
+        # set to canonical zero
+        zero!(ts)
+    else
+        # remove the zero coefficents
+        deleteat!(newterms, zs)
+
+        # replace terms with simplified version
+        ts.terms = newterms
+    end
+
+    nothing
+
+end
+
+function dropconst!(ts::TermSum)::Nothing
+    #=
+    Drop terms proportional to the identity.
+    =#
+
+    cs = isconst.(ts)
+    deleteat!(ts, cs)
 
     nothing
 

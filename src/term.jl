@@ -13,14 +13,44 @@ times!(t::Term, mnum::ExactNumber)::Nothing = times!(t.coeff, mnum)
 
 zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
 
+function iszero!(t::Term)
+    #=
+    Is the term equivalent to a zero? Simplifies coeff in the process.
+    =#
+
+    # first simplify in case coefficients cancel, then check if coefficient is zero
+    simplify!(t.coeff)
+    iszero(t.coeff)
+
+end
+
+function zero!(t::Term)::Nothing
+    #=
+    Set the term to canonical zero.
+    =#
+
+    t.op = MajoranaProduct()
+    t.coeff = zero(CoefficientSum)
+
+    nothing
+
+end
+
+# Is the term a constant (propto identity)?
+isconst(t::Term) = isconst(t.op)
+
 function simplify!(t::Term)::Nothing
     #=
     Simplify the majorana product and coefficient sum.
     =#
 
-    num = canonicalize!(t.op)
-    times!(t.coeff, num)
-    simplify!(t.coeff)
+    if iszero!(t) # calling this simplifies the coefficient
+        # set to canonical zero
+        zero!(t)
+    else
+        num = canonicalize!(t.op)
+        times!(t.coeff, num)
+    end
 
     nothing
 

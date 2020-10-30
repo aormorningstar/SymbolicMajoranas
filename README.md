@@ -3,9 +3,8 @@
 Functionality for working symbolically with operators that are sums of products of Majorana operators on the sites of a lattice. It's still a work in progress.
 
 ## TODO
-- I think I'm using arrays where tuples would be better. Fix this.
-- Check if some functions are better if they are not mutating. Also, some defined mutable types might be better off if they're made immutable.
-- Simplify and canonicalize methods should check if it is equal to the zero element of that type. If so, set all fields to values of zero element.
+- Using arrays where tuples might be better.
+- Some functions are better if they are not mutating. Also, some defined mutable types might be better off if they're made immutable.
 - Implement nice printing.
 
 ## Author

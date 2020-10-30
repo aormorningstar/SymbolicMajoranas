@@ -31,6 +31,21 @@ end
 # a zero element
 zero(T::Type{CoefficientSum})::CoefficientSum = CoefficientSum([zero(Coefficient)])
 
+# are all coefficients in the sum zero?
+iszero(cs::CoefficientSum) = all(iszero.(cs))
+
+function zero!(cs::CoefficientSum)::Nothing
+    #=
+    Set to canonical zero.
+    =#
+
+    empty!(cs)
+    push!(cs, zero(Coefficient))
+
+    nothing
+
+end
+
 function simplify!(cs::CoefficientSum)::Nothing
     #=
     Simplify the coefficeint sum.
@@ -44,8 +59,19 @@ function simplify!(cs::CoefficientSum)::Nothing
     # if coefficients can be added together, do so
     newcoeffs = _compresssum(cs)
 
-    # replace coefficients with simplified version
-    cs.coeffs = newcoeffs
+    # find any zeros
+    zs = iszero.(newcoeffs)
+
+    if all(zs)
+        # set to canonical zero
+        zero!(cs)
+    else
+        # remove the zero coefficents
+        deleteat!(newcoeffs, zs)
+
+        # replace coefficients with simplified version
+        cs.coeffs = newcoeffs
+    end
 
     nothing
 

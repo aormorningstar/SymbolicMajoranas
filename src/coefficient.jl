@@ -24,29 +24,36 @@ end
 zero(T::Type{Coefficient})::Coefficient = Coefficient(zero(ExactNumber), BareCoefficient[],
 BareCoefficient[])
 
+# is the coefficient equivalent to a zero?
+iszero(c::Coefficient) = iszero(c.num)
+
+function zero!(c::Coefficient)::Nothing
+    #=
+    Set the coefficient to canonical zero.
+    =#
+
+    c.num = 0
+    c.top = BareCoefficient[]
+    c.bot = BareCoefficient[]
+
+    nothing
+
+end
+
 function canonicalize!(c::Coefficient)::Nothing
     #=
     Put the numerator and denominator into a canonical form.
     =#
 
-    sort!(c.top)
-    sort!(c.bot)
-
-    # if common factors in numerator and denominator, allow them to cancel out
-    keeptop = trues(length(c.top))
-    keepbot = trues(length(c.bot))
-
-    for (i, bci) in enumerate(c.top), (j, bcj) in enumerate(c.bot)
-
-        if bci == bcj && keeptop[i] && keepbot[j] # cancel if not already
-            keeptop[i] = false
-            keepbot[j] = false
-        end
-
+    if iszero(c)
+        # set to canonical zero
+        zero!(c)
+    else
+        # sort numerator and denominator and cancel common factors
+        sort!(c.top)
+        sort!(c.bot)
+        _pairwisedelete!(c.top, c.bot)
     end
-
-    c.top = c.top[keeptop]
-    c.bot = c.bot[keepbot]
 
     nothing
 

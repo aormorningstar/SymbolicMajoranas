@@ -21,6 +21,9 @@ end
 
 length(op::MajoranaProduct) = length(op.sites)
 
+# Is the operator a constant (propto identity)?
+isconst(op::MajoranaProduct) = isempty(op.sites)
+
 function is_canonical(op::MajoranaProduct)::Bool
     #=
     Check if term is in canonical form.

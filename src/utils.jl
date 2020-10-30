@@ -1,5 +1,5 @@
 
-function _equalarrays(a1::AbstractArray{T}, a2::AbstractArray{T}) where T <: Any
+function _equalarrays(a1::AbstractArray{T}, a2::AbstractArray{T}) where T
     #=
     Compare two arrays for equality.
     =#
@@ -37,5 +37,31 @@ function _compresssum(v::AbstractArray{T, 1}) where T
     end
 
     cv
+
+end
+
+function _pairwisedelete!(v::AbstractArray{T, 1}, u::AbstractArray{T, 1}) where T
+    #=
+    Deletes pairs of equal elements in the two vectors.
+    =#
+
+    lv = length(v)
+    lu = length(u)
+    delv = falses(lv)
+    delu = falses(lu)
+
+    for (i, x) in enumerate(v), (j, y) in enumerate(u)
+
+        if x==y && !delv[i] && !delu[j] # delete if not already
+            delv[i] = true
+            delu[j] = true
+        end
+
+    end
+
+    deleteat!(v, delv)
+    deleteat!(u, delu)
+
+    nothing
 
 end
