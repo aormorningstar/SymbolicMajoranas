@@ -34,8 +34,8 @@ function zero!(cs::CoefficientSum)
     Set to canonical zero.
     =#
 
-    empty!(cs)
-    push!(cs, zero(Coefficient))
+    empty!(cs.coeffs)
+    push!(cs.coeffs, zero(Coefficient))
 
     nothing
 
@@ -59,7 +59,7 @@ function simplify!(cs::CoefficientSum)
 
     # put all coefficents into canonical form
     for c in cs
-        canonicalize!(cs)
+        canonicalize!(c)
     end
 
     # if coefficients can be added together, do so

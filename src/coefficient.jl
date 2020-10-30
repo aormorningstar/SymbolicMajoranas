@@ -84,7 +84,7 @@ function addable(c1::Coefficient, c2::Coefficient)
     t = _equalarrays(c1.top, c2.top)
     b = _equalarrays(c1.bot, c2.bot)
 
-    t & b
+    t && b
 
 end
 

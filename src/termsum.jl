@@ -21,8 +21,8 @@ function zero!(ts::TermSum)
     Set to canonical zero.
     =#
 
-    empty!(ts)
-    push!(ts, zero(Term))
+    empty!(ts.terms)
+    push!(ts.terms, zero(Term))
 
     nothing
 
@@ -59,13 +59,13 @@ function simplify!(ts::TermSum)
 
 end
 
-function dropconst!(ts::TermSum)
+function drop!(ts::TermSum, f::Function)
     #=
-    Drop terms proportional to the identity.
+    Drop terms for which a function returns true.
     =#
 
-    cs = isconst.(ts)
-    deleteat!(ts, cs)
+    dr = f.(ts)
+    deleteat!(ts.terms, dr)
 
     nothing
 
