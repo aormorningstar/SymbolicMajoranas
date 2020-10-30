@@ -16,7 +16,7 @@ getindex(ts::TermSum, i::Integer) = getindex(ts.terms, i)
 
 setindex!(ts::TermSum, t::Term, i::Integer) = setindex!(ts.terms, t, i)
 
-function zero!(ts::TermSum)::Nothing
+function zero!(ts::TermSum)
     #=
     Set to canonical zero.
     =#
@@ -28,7 +28,7 @@ function zero!(ts::TermSum)::Nothing
 
 end
 
-function simplify!(ts::TermSum)::Nothing
+function simplify!(ts::TermSum)
     #=
     Simplify the sum of terms.
     =#
@@ -59,7 +59,7 @@ function simplify!(ts::TermSum)::Nothing
 
 end
 
-function dropconst!(ts::TermSum)::Nothing
+function dropconst!(ts::TermSum)
     #=
     Drop terms proportional to the identity.
     =#
@@ -71,7 +71,7 @@ function dropconst!(ts::TermSum)::Nothing
 
 end
 
-function times!(ts::TermSum, mnum::ExactNumber)::Nothing
+function times!(ts::TermSum, mnum::ExactNumber)
     #=
     Multiply in place by a constant numerical factor.
     =#
@@ -84,7 +84,7 @@ function times!(ts::TermSum, mnum::ExactNumber)::Nothing
 
 end
 
-function *(ts1::TermSum, ts2::TermSum)::TermSum
+function *(ts1::TermSum, ts2::TermSum)
     #=
     Multiply two sums of terms.
     =#
@@ -99,7 +99,7 @@ function *(ts1::TermSum, ts2::TermSum)::TermSum
 
 end
 
-function commutator(ts1::TermSum, ts2::TermSum)::TermSum
+function commutator(ts1::TermSum, ts2::TermSum)
     #=
     Commutator of term sums.
     =#
@@ -114,7 +114,7 @@ function commutator(ts1::TermSum, ts2::TermSum)::TermSum
 
 end
 
-function +(ts1::TermSum, ts2::TermSum)::TermSum
+function +(ts1::TermSum, ts2::TermSum)
     #=
     Add term sums.
     =#

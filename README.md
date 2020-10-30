@@ -4,7 +4,7 @@ Functionality for working symbolically with operators that are sums of products 
 
 ## TODO
 - Using arrays where tuples might be better.
-- Some functions are better if they are not mutating. Also, some defined mutable types might be better off if they're made immutable.
+- Try to make more types immutable and more functions non-mutating.
 - Implement nice printing.
 
 ## Author

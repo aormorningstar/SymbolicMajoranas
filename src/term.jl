@@ -9,22 +9,14 @@ mutable struct Term
 
 end
 
-times!(t::Term, mnum::ExactNumber)::Nothing = times!(t.coeff, mnum)
+times!(t::Term, mnum::ExactNumber) = times!(t.coeff, mnum)
 
 zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
 
-function iszero!(t::Term)
-    #=
-    Is the term equivalent to a zero? Simplifies coeff in the process.
-    =#
+# Is the term equivalent to a zero? Simplifies coeff in the process.
+iszero!(t::Term) = iszero!(t.coeff)
 
-    # first simplify in case coefficients cancel, then check if coefficient is zero
-    simplify!(t.coeff)
-    iszero(t.coeff)
-
-end
-
-function zero!(t::Term)::Nothing
+function zero!(t::Term)
     #=
     Set the term to canonical zero.
     =#
@@ -39,7 +31,7 @@ end
 # Is the term a constant (propto identity)?
 isconst(t::Term) = isconst(t.op)
 
-function simplify!(t::Term)::Nothing
+function simplify!(t::Term)
     #=
     Simplify the majorana product and coefficient sum.
     =#
@@ -56,7 +48,7 @@ function simplify!(t::Term)::Nothing
 
 end
 
-function *(t1::Term, t2::Term)::Term
+function *(t1::Term, t2::Term)
     #=
     Multiply two terms.
     =#
@@ -70,7 +62,7 @@ function *(t1::Term, t2::Term)::Term
 
 end
 
-function commutator(t1::Term, t2::Term)::Term
+function commutator(t1::Term, t2::Term)
     #=
     Commutator of terms.
     =#
@@ -89,7 +81,7 @@ function commutator(t1::Term, t2::Term)::Term
 
 end
 
-function addable(t1::Term, t2::Term)::Bool
+function addable(t1::Term, t2::Term)
     #=
     Can we add these two terms and get a single resultant term?
     =#
@@ -98,7 +90,7 @@ function addable(t1::Term, t2::Term)::Bool
 
 end
 
-function +(t1::Term, t2::Term)::Term
+function +(t1::Term, t2::Term)
     #=
     Add t1 and t2. Only works when they are addable.
     =#

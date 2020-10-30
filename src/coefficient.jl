@@ -10,7 +10,7 @@ mutable struct Coefficient
 
 end
 
-function times!(c::Coefficient, mnum::ExactNumber)::Nothing
+function times!(c::Coefficient, mnum::ExactNumber)
     #=
     Multiply the numerical prefactor in place.
     =#
@@ -21,13 +21,12 @@ function times!(c::Coefficient, mnum::ExactNumber)::Nothing
 
 end
 
-zero(T::Type{Coefficient})::Coefficient = Coefficient(zero(ExactNumber), BareCoefficient[],
-BareCoefficient[])
+zero(T::Type{Coefficient}) = Coefficient(zero(ExactNumber), BareCoefficient[], BareCoefficient[])
 
-# is the coefficient equivalent to a zero?
+# Is the coefficient a zero?
 iszero(c::Coefficient) = iszero(c.num)
 
-function zero!(c::Coefficient)::Nothing
+function zero!(c::Coefficient)
     #=
     Set the coefficient to canonical zero.
     =#
@@ -40,7 +39,7 @@ function zero!(c::Coefficient)::Nothing
 
 end
 
-function canonicalize!(c::Coefficient)::Nothing
+function canonicalize!(c::Coefficient)
     #=
     Put the numerator and denominator into a canonical form.
     =#
@@ -52,14 +51,14 @@ function canonicalize!(c::Coefficient)::Nothing
         # sort numerator and denominator and cancel common factors
         sort!(c.top)
         sort!(c.bot)
-        _pairwisedelete!(c.top, c.bot)
+        _cancelpairs!(c.top, c.bot)
     end
 
     nothing
 
 end
 
-function *(c1::Coefficient, c2::Coefficient)::Coefficient
+function *(c1::Coefficient, c2::Coefficient)
     #=
     Product of symbolic coefficients.
     =#
@@ -76,7 +75,7 @@ function *(c1::Coefficient, c2::Coefficient)::Coefficient
 
 end
 
-function addable(c1::Coefficient, c2::Coefficient)::Bool
+function addable(c1::Coefficient, c2::Coefficient)
     #=
     Can we add these two coefficients and get a single resultant coefficient?
     =#
@@ -89,7 +88,7 @@ function addable(c1::Coefficient, c2::Coefficient)::Bool
 
 end
 
-function +(c1::Coefficient, c2::Coefficient)::Coefficient
+function +(c1::Coefficient, c2::Coefficient)
     #=
     Add c1 and c2. Only works when they are addable.
     =#

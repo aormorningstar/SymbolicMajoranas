@@ -40,9 +40,9 @@ function _compresssum(v::AbstractArray{T, 1}) where T
 
 end
 
-function _pairwisedelete!(v::AbstractArray{T, 1}, u::AbstractArray{T, 1}) where T
+function _cancelpairs!(v::AbstractArray{T, 1}, u::AbstractArray{T, 1}) where T
     #=
-    Deletes pairs of equal elements in the two vectors.
+    Delete pairs of equal elements in the two vectors.
     =#
 
     lv = length(v)

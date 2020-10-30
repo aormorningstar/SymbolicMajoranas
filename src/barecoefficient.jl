@@ -9,7 +9,7 @@ struct BareCoefficient
 
 end
 
-function isless(bc1::BareCoefficient, bc2::BareCoefficient)::Bool
+function isless(bc1::BareCoefficient, bc2::BareCoefficient)
     #=
     Are two bare coefficients ordered?
     =#
@@ -19,7 +19,7 @@ function isless(bc1::BareCoefficient, bc2::BareCoefficient)::Bool
 
 end
 
-function (==)(bc1::BareCoefficient, bc2::BareCoefficient)::Bool
+function (==)(bc1::BareCoefficient, bc2::BareCoefficient)
     #=
     Do two bare coefficients represent the same value?
     =#

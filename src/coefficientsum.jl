@@ -15,7 +15,7 @@ getindex(cs::CoefficientSum, i::Integer) = getindex(cs.coeffs, i)
 
 setindex!(cs::CoefficientSum, c::Coefficient, i::Integer) = setindex!(cs.coeffs, c, i)
 
-function times!(cs::CoefficientSum, mnum::ExactNumber)::Nothing
+function times!(cs::CoefficientSum, mnum::ExactNumber)
     #=
     Multiply the numerical prefactors of all coefficients.
     =#
@@ -24,17 +24,12 @@ function times!(cs::CoefficientSum, mnum::ExactNumber)::Nothing
         times!(c, mnum)
     end
 
-    nothing
-
 end
 
 # a zero element
-zero(T::Type{CoefficientSum})::CoefficientSum = CoefficientSum([zero(Coefficient)])
+zero(T::Type{CoefficientSum}) = CoefficientSum([zero(Coefficient)])
 
-# are all coefficients in the sum zero?
-iszero(cs::CoefficientSum) = all(iszero.(cs))
-
-function zero!(cs::CoefficientSum)::Nothing
+function zero!(cs::CoefficientSum)
     #=
     Set to canonical zero.
     =#
@@ -46,14 +41,25 @@ function zero!(cs::CoefficientSum)::Nothing
 
 end
 
-function simplify!(cs::CoefficientSum)::Nothing
+function iszero!(cs::CoefficientSum)
+    #=
+    Is the coefficient sum a zero? Simplifies coefficient sum in the process.
+    =#
+
+    # first simplify in case coefficients cancel, then check if coefficient is zero
+    simplify!(cs)
+    all(iszero.(cs))
+
+end
+
+function simplify!(cs::CoefficientSum)
     #=
     Simplify the coefficeint sum.
     =#
 
     # put all coefficents into canonical form
     for c in cs
-        canonicalize!(c)
+        canonicalize!(cs)
     end
 
     # if coefficients can be added together, do so
@@ -77,7 +83,7 @@ function simplify!(cs::CoefficientSum)::Nothing
 
 end
 
-function *(cs1::CoefficientSum, cs2::CoefficientSum)::CoefficientSum
+function *(cs1::CoefficientSum, cs2::CoefficientSum)
     #=
     Product of coefficient sums.
     =#
@@ -92,7 +98,7 @@ function *(cs1::CoefficientSum, cs2::CoefficientSum)::CoefficientSum
 
 end
 
-function +(cs1::CoefficientSum, cs2::CoefficientSum)::CoefficientSum
+function +(cs1::CoefficientSum, cs2::CoefficientSum)
     #=
     Add coefficient sums.
     =#

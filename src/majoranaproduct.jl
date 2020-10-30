@@ -8,7 +8,7 @@ mutable struct MajoranaProduct
 
 end
 
-function MajoranaProduct()::MajoranaProduct
+function MajoranaProduct()
     #=
     Construct an empty product (the identity).
     =#
@@ -24,12 +24,12 @@ length(op::MajoranaProduct) = length(op.sites)
 # Is the operator a constant (propto identity)?
 isconst(op::MajoranaProduct) = isempty(op.sites)
 
-function is_canonical(op::MajoranaProduct)::Bool
+function iscanonical(op::MajoranaProduct)
     #=
     Check if term is in canonical form.
     =#
 
-    ic = true # is canonical?
+    ic = true # in canonical form
 
     for i in 1:length(op)-1
 
@@ -44,15 +44,15 @@ function is_canonical(op::MajoranaProduct)::Bool
 
 end
 
-function canonicalize!(op::MajoranaProduct)::Integer
+function canonicalize!(op::MajoranaProduct)
     #=
     Put product of Majorana operators into canonical form.
     =#
 
-    num = 1 # will produce a factor of +1 or -1
+    num = 1 # will produce a factor of +1 or -1 from anticommuting Majorana oparators
 
     # normal order if not already true
-    if !is_canonical(op)
+    if !iscanonical(op)
 
         # bubble sort and keep track of minus signs from commuting majoranas
         l = length(op)
@@ -91,7 +91,7 @@ function canonicalize!(op::MajoranaProduct)::Integer
 
 end
 
-function *(op1::MajoranaProduct, op2::MajoranaProduct)::Tuple{MajoranaProduct, Integer}
+function *(op1::MajoranaProduct, op2::MajoranaProduct)
     #=
     Multiply two Majorana products.
     =#
@@ -106,7 +106,7 @@ function *(op1::MajoranaProduct, op2::MajoranaProduct)::Tuple{MajoranaProduct, I
 
 end
 
-function commute(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
+function commute(op1::MajoranaProduct, op2::MajoranaProduct)
     #=
     Do these products of Majorana operators commute?
     =#
@@ -120,7 +120,7 @@ function commute(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
 
 end
 
-function (==)(op1::MajoranaProduct, op2::MajoranaProduct)::Bool
+function (==)(op1::MajoranaProduct, op2::MajoranaProduct)
     #=
     Are the operators equal?
     =#
