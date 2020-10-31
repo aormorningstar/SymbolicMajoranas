@@ -19,17 +19,6 @@ empty!(cs::CoefficientSum) = empty!(cs.coeffs)
 
 push!(cs::CoefficientSum, cfs...) = push!(cs.coeffs, cfs...)
 
-function times!(cs::CoefficientSum, mnum::ExactNumber)
-    #=
-    Multiply the numerical prefactors of all coefficients.
-    =#
-
-    for c in cs
-        times!(c, mnum)
-    end
-
-end
-
 # a zero element
 zero(T::Type{CoefficientSum}) = CoefficientSum([zero(Coefficient)])
 

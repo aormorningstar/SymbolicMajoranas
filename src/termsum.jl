@@ -74,19 +74,6 @@ function drop!(ts::TermSum, f::Function)
 
 end
 
-function times!(ts::TermSum, mnum::ExactNumber)
-    #=
-    Multiply in place by a constant numerical factor.
-    =#
-
-    for t in ts
-        times!(t, mnum)
-    end
-
-    nothing
-
-end
-
 function *(ts1::TermSum, ts2::TermSum)
     #=
     Multiply two sums of terms.

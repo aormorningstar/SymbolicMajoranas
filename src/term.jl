@@ -9,7 +9,7 @@ mutable struct Term
 
 end
 
-times!(t::Term, mnum::ExactNumber) = times!(t.coeff, mnum)
+times!(t::Term, mnum::ExactNumber) = times!.(t.coeff, mnum)
 
 zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
 
@@ -41,7 +41,7 @@ function simplify!(t::Term)
         zero!(t)
     else
         num = canonicalize!(t.op)
-        times!(t.coeff, num)
+        times!.(t.coeff, num)
     end
 
     nothing
@@ -55,7 +55,7 @@ function *(t1::Term, t2::Term)
 
     newo, num = t1.op * t2.op # operator, sign from normal ordering
     newc = t1.coeff * t2.coeff
-    times!(newc, num)
+    times!.(newc, num)
     newt = Term(newo, newc)
 
     newt
