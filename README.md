@@ -3,9 +3,8 @@
 Functionality for working symbolically with operators that are sums of products of Majorana operators on the sites of a lattice. It's still a work in progress.
 
 ## TODO
-- Using arrays where tuples might be better.
-- Try to make more types immutable and more functions non-mutating.
-- Implement nice printing.
+- automatic testing
+- implement nice printing
 
 ## Author
 
