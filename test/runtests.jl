@@ -1,39 +1,152 @@
 using Test
 include("../src/SymbolicMajoranas.jl")
 
-@testset "unit - BareCoefficient" begin
+@testset "BareCoefficient" begin
 
-    bc1 = BareCoefficient(-3, 1)
-    bc2 = BareCoefficient(2, 4)
-    bc3 = BareCoefficient(2, 2)
-    bc4 = BareCoefficient(2, 2)
+    # for convenience
+    BC = BareCoefficient
 
-    @test bc1 < bc2
-    @test bc3 < bc2
-    @test bc3 == bc4
+    # check order defined on bare coefficients
+    @test BC(-3, 1) < BC(2, 4)
+    @test BC(2, 2) < BC(2, 4)
+    @test BC(2, 2) == BC(2, 2)
 
 end
 
-@testset "unit - Coefficient" begin
+@testset "Coefficient" begin
 
-    c1 = Coefficient(-2//5, [BareCoefficient(1,2), BareCoefficient(2,3)], [BareCoefficient(0,1)])
-    times!(c1, -1//2)
-    @test c1.num == 1//5
+    # for convenience
+    BC = BareCoefficient
+    C = Coefficient
 
-    c2 = Coefficient(-2//3, [BareCoefficient(2,3), BareCoefficient(1,2)], [BareCoefficient(0,1)])
-    canonicalize!(c2)
-    @test addable(c1, c2)
-    c3 = c1 + c2
-    @test c3.num == -7//15
+    # check in place multiplication by a numerical factor
+    @test begin
 
-    c4 = Coefficient(1im, [BareCoefficient(0,1)], [])
-    c5 = c3 * c4
-    @test c5.num == -7im//15
-    @test isempty(c5.bot)
-    @test !any(BareCoefficient(0,1) == c5.top)
+        c = C(-2//5, [BC(1, 2), BC(2, 3)], [BC(0, 1)])
+        times!(c, -1//2)
+        c.num == 1//5
 
-    c6 = Coefficient(1, [BareCoefficient(0,0)], [BareCoefficient(0,0)])
-    canonicalize!(c6)
-    @test isempty(c6.top) && isempty(c6.bot)
+    end
+
+    # check zeroing a coefficent works as intended
+    @test begin
+
+        c = C(-2//5, [BC(1, 2), BC(2, 3)], [BC(0, 1)])
+        zero!(c)
+        c.num == 0 && isempty(c.top) && isempty(c.bot)
+
+    end
+
+    # check canonicalization and addition of coefficients
+    @test begin
+
+        c1 = C(1, [BC(1, 2), BC(2, 3), BC(4, 5)], [BC(4, 5), BC(0, 1)])
+        c2 = C(2, [BC(2, 3), BC(1, 2)], [BC(0, 1)])
+        canonicalize!(c1)
+        canonicalize!(c2)
+        addable(c1, c2)
+        c3 = c1 + c2
+        c3.num == 3
+
+    end
+
+end
+
+@testset "CoefficientSum" begin
+
+    # for convenience
+    BC = BareCoefficient
+    C = Coefficient
+    CS = CoefficientSum
+
+    # check the simplify! method
+    @test begin
+
+        cs = CS([
+            C(1, [BC(1, 2), BC(2, 3)], [BC(0, 1)]),
+            C(2, [BC(1, 2), BC(2, 3)], [BC(0, 1)]),
+            C(3, [BC(3, 4)], []),
+            C(4, [BC(3, 4), BC(0, 0)], [BC(0, 0)]),
+            zero(C),
+        ])
+
+        simplify!(cs)
+        size(cs) == (2,) && cs[1].num == 3 && cs[2].num == 7
+
+    end
+
+    # check in place multiplication by a scalar
+    @test begin
+
+        cs = CS([
+            C(1, [BC(1, 2), BC(2, 3)], [BC(0, 1)]),
+            C(4, [BC(3, 4), BC(0, 0)], [BC(0, 0)]),
+        ])
+
+        times!.(cs, -1im)
+        cs[1].num == -1im && cs[2].num == -4im
+
+    end
+
+end
+
+@testset "MajoranaProduct" begin
+
+    # for convenience
+    MP = MajoranaProduct
+
+    # test canonicalization
+    @test begin
+
+        mp = MP([3, 1, 2, 1])
+        ic1 = iscanonical(mp)
+        n = canonicalize!(mp)
+        ic2 = iscanonical(mp)
+
+        !ic1 && n == 1 && ic2 && length(mp) == 2
+
+    end
+
+    # test * and ==
+    @test begin
+
+        mp1 = MP([1, 2, 3, 4])
+        mp2 = MP([3, 1])
+        mp3, n = mp1 * mp2
+        mp3 == MP([2, 4]) && n == -1
+
+    end
+
+    # test commute
+    @test commute(MP([1, 2]), MP([2, 4])) == false
+    @test commute(MP([1, 2]), MP([3, 4])) == true
+
+
+end
+
+@testset "Term" begin
+
+    # for convenience
+    BC = BareCoefficient
+    C = Coefficient
+    CS = CoefficientSum
+    MP = MajoranaProduct
+    T = Term
+
+    # TODO add tests here
+
+end
+
+@testset "TermSum" begin
+
+    # for convenience
+    BC = BareCoefficient
+    C = Coefficient
+    CS = CoefficientSum
+    MP = MajoranaProduct
+    T = Term
+    TS = TermSum
+
+    # TODO add tests here
 
 end

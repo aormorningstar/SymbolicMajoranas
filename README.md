@@ -1,10 +1,10 @@
 # SymbolicMajoranas
 
-Functionality for working symbolically with operators that are sums of products of Majorana operators on the sites of a lattice. It's still a work in progress.
+Functionality for working symbolically with operators that are sums of products of Majorana operators on the sites of a lattice.
 
 ## TODO
-- automatic testing
-- implement nice printing
+- more testing
+- nice printing (maybe print latex code?)
 
 ## Author
 
