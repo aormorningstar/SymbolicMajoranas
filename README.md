@@ -4,7 +4,7 @@ Functionality for working symbolically with operators that are sums of products 
 
 ## TODO
 - more testing
-- nice printing (maybe print latex code?)
+- nice printing (maybe print LaTeX code?)
 
 ## Author
 
