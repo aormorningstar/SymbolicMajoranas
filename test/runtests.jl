@@ -7,9 +7,9 @@ include("../src/SymbolicMajoranas.jl")
     BC = BareCoefficient
 
     # check order defined on bare coefficients
-    @test BC(-3, 1) < BC(2, 4)
-    @test BC(2, 2) < BC(2, 4)
-    @test BC(2, 2) == BC(2, 2)
+    @test BC(-3, "a") < BC(2, "d")
+    @test BC(2, "b") < BC(2, "d")
+    @test BC(2, "b") == BC(2, "b")
 
 end
 
@@ -22,7 +22,7 @@ end
     # check in place multiplication by a numerical factor
     @test begin
 
-        c = C(-2//5, [BC(1, 2), BC(2, 3)], [BC(0, 1)])
+        c = C(-2//5, [BC(1, "b"), BC(2, "c")], [BC(0, "a")])
         times!(c, -1//2)
         c.num == 1//5
 
@@ -31,7 +31,7 @@ end
     # check zeroing a coefficent works as intended
     @test begin
 
-        c = C(-2//5, [BC(1, 2), BC(2, 3)], [BC(0, 1)])
+        c = C(-2//5, [BC(1, "b"), BC(2, "c")], [BC(0, "a")])
         zero!(c)
         c.num == 0 && isempty(c.top) && isempty(c.bot)
 
@@ -40,8 +40,8 @@ end
     # check canonicalization and addition of coefficients
     @test begin
 
-        c1 = C(1, [BC(1, 2), BC(2, 3), BC(4, 5)], [BC(4, 5), BC(0, 1)])
-        c2 = C(2, [BC(2, 3), BC(1, 2)], [BC(0, 1)])
+        c1 = C(1, [BC(1, "b"), BC(2, "c"), BC(4, "e")], [BC(4, "e"), BC(0, "a")])
+        c2 = C(2, [BC(2, "c"), BC(1, "b")], [BC(0, "a")])
         canonicalize!(c1)
         canonicalize!(c2)
         addable(c1, c2)
@@ -63,10 +63,10 @@ end
     @test begin
 
         cs = CS([
-            C(1, [BC(1, 2), BC(2, 3)], [BC(0, 1)]),
-            C(2, [BC(1, 2), BC(2, 3)], [BC(0, 1)]),
-            C(3, [BC(3, 4)], []),
-            C(4, [BC(3, 4), BC(0, 0)], [BC(0, 0)]),
+            C(1, [BC(1, "b"), BC(2, "c")], [BC(0, "a")]),
+            C(2, [BC(1, "b"), BC(2, "c")], [BC(0, "a")]),
+            C(3, [BC(3, "d")], []),
+            C(4, [BC(3, "d"), BC(0, "z")], [BC(0, "z")]),
             zero(C),
         ])
 
@@ -79,8 +79,8 @@ end
     @test begin
 
         cs = CS([
-            C(1, [BC(1, 2), BC(2, 3)], [BC(0, 1)]),
-            C(4, [BC(3, 4), BC(0, 0)], [BC(0, 0)]),
+            C(1, [BC(1, "b"), BC(2, "c")], [BC(0, "a")]),
+            C(4, [BC(3, "d"), BC(0, "z")], [BC(0, "z")]),
         ])
 
         times!.(cs, -1im)
