@@ -10,6 +10,35 @@ mutable struct Coefficient
 
 end
 
+function show(io::IO, c::Coefficient)
+    #=
+    Formatted printing.
+    =#
+
+    if imag(c.num) == 0
+        print(io, real(c.num))
+    elseif real(c.num) == 0
+        print(io, imag(c.num), "i")
+    else
+        print(io, c.num)
+    end
+
+    print(io, " [")
+    for bc in c.top[1:end-1]
+        print(io, bc, " ")
+    end
+    print(io, c.top[end], "]")
+
+    if !isempty(c.bot)
+        print(io, "/[")
+        for bc in c.bot[1:end-1]
+            print(io, bc, " ")
+        end
+        print(io, c.bot[end], "]")
+    end
+
+end
+
 function times!(c::Coefficient, mnum::ExactNumber)
     #=
     Multiply the numerical prefactor in place.

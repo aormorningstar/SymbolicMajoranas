@@ -19,6 +19,21 @@ function MajoranaProduct()
 
 end
 
+function show(io::IO, mp::MajoranaProduct)
+    #=
+    Formatted printing.
+    =#
+
+    if isempty(mp.sites)
+        print(io, "I")
+    else
+        for s in mp.sites
+            print(io, "X{", s, "}")
+        end
+    end
+
+end
+
 length(op::MajoranaProduct) = length(op.sites)
 
 # Is the operator a constant (propto identity)?

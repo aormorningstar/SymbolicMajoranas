@@ -16,6 +16,18 @@ getindex(ts::TermSum, i::Integer) = getindex(ts.terms, i)
 
 setindex!(ts::TermSum, t::Term, i::Integer) = setindex!(ts.terms, t, i)
 
+function show(io::IO, ts::TermSum)
+    #=
+    Formatted printing.
+    =#
+
+    print(io, ts[1], "\n")
+    for t in ts[2:end]
+        print(io, "+ ", t, "\n")
+    end
+
+end
+
 empty!(ts::TermSum) = empty!(ts.terms)
 
 push!(ts::TermSum, tms...) = push!(ts.terms, tms...)

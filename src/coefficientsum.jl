@@ -19,6 +19,19 @@ empty!(cs::CoefficientSum) = empty!(cs.coeffs)
 
 push!(cs::CoefficientSum, cfs...) = push!(cs.coeffs, cfs...)
 
+function show(io::IO, cs::CoefficientSum)
+    #=
+    Formatted printing.
+    =#
+
+    print(io, "(", cs[1])
+    for c in cs[2:end]
+        print(io, " + ", c)
+    end
+    print(io, ")")
+
+end
+
 # a zero element
 zero(T::Type{CoefficientSum}) = CoefficientSum([zero(Coefficient)])
 

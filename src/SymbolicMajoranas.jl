@@ -1,6 +1,6 @@
 
 import Base: *, ==, +, isless, iszero, zero, iterate, eltype, size, length, getindex, setindex!,
-push!, empty!, convert
+push!, empty!, convert, show
 
 # Helper functions
 include("utils.jl")

@@ -9,6 +9,9 @@ struct BareCoefficient
 
 end
 
+# Formatted printing
+show(io::IO, bc::BareCoefficient) = print(io, bc.type, "_{", bc.site, "}")
+
 function isless(bc1::BareCoefficient, bc2::BareCoefficient)
     #=
     Are two bare coefficients ordered?

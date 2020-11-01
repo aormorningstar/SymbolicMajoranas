@@ -9,6 +9,9 @@ mutable struct Term
 
 end
 
+# Formatted printing
+show(io::IO, t::Term) = print(io, t.coeff, " ", t.op)
+
 times!(t::Term, mnum::ExactNumber) = times!.(t.coeff, mnum)
 
 zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
