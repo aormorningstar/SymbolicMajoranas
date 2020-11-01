@@ -50,9 +50,7 @@ function simplify!(ts::TermSum)
     =#
 
     # put all terms into simplified form
-    for t in ts
-        simplify!(t)
-    end
+    simplify!.(ts)
 
     # if coefficients can be added together, do so
     newterms = _compresssum(ts)

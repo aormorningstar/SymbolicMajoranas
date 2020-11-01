@@ -12,6 +12,32 @@ end
 ExactNumber = Union{Complex{Rational{I1}}, Rational{I2}, I3, Complex{I4}} where I1 <: Integer where
 I2 <: Integer where I3 <: Integer where I4 <: Integer
 
+function simplify(n::ExactNumber)
+    #=
+    Represent an ExactNumber in the simplest way possible.
+    =#
+
+    newn = n
+    ir = imag(n) == 0
+
+    if ir
+        try
+            newn = convert(Int64, n)
+        catch err
+            nothing
+        end
+    else
+        try
+            newn = convert(Complex{Int64}, n)
+        catch err
+            nothing
+        end
+    end
+
+    newn
+
+end
+
 function _compresssum(v::AbstractVector{T}) where T
 
     # if elements can be added together, do so

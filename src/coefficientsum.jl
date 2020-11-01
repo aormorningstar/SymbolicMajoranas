@@ -64,9 +64,7 @@ function simplify!(cs::CoefficientSum)
     =#
 
     # put all coefficents into canonical form
-    for c in cs
-        canonicalize!(c)
-    end
+    canonicalize!.(cs)
 
     # if coefficients can be added together, do so
     newcoeffs = _compresssum(cs)

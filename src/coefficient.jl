@@ -15,12 +15,14 @@ function show(io::IO, c::Coefficient)
     Formatted printing.
     =#
 
-    if imag(c.num) == 0
-        print(io, real(c.num))
-    elseif real(c.num) == 0
-        print(io, imag(c.num), "i")
+    num = simplify(c.num::ExactNumber)
+
+    if imag(num) == 0
+        print(io, real(num))
+    elseif real(num) == 0
+        print(io, imag(num), "i")
     else
-        print(io, c.num)
+        print(io, num)
     end
 
     print(io, " [")
@@ -81,6 +83,9 @@ function canonicalize!(c::Coefficient)
         sort!(c.top)
         sort!(c.bot)
         _cancelpairs!(c.top, c.bot)
+
+        # store prefactor in simplest form
+        c.num = simplify(c.num::ExactNumber)
     end
 
     nothing
