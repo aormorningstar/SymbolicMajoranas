@@ -12,7 +12,10 @@ end
 # Formatted printing
 show(io::IO, t::Term) = print(io, t.coeff, " ", t.op)
 
+# In place multiplication and division
 times!(t::Term, mnum::ExactNumber) = times!.(t.coeff, mnum)
+times!(t::Term, bc::BareCoefficient) = times!.(t.coeff, bc)
+div!(t::Term, bc::BareCoefficient) = div!.(t.coeff, bc)
 
 zero(T::Type{Term})::Term = Term(MajoranaProduct(), zero(CoefficientSum))
 

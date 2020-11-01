@@ -12,6 +12,12 @@ end
 # Formatted printing
 show(io::IO, bc::BareCoefficient) = print(io, bc.type, "_{", bc.site, "}")
 
+# Needed for broadcasting mutliplication by bare coefficients
+length(bc::BareCoefficient) = 1
+iterate(bc::BareCoefficient) = (bc, 1)
+iterate(bc::BareCoefficient, state::Int) = nothing
+
+
 function isless(bc1::BareCoefficient, bc2::BareCoefficient)
     #=
     Are two bare coefficients ordered?

@@ -52,6 +52,30 @@ function times!(c::Coefficient, mnum::ExactNumber)
 
 end
 
+function times!(c::Coefficient, bc::BareCoefficient)
+    #=
+    Multiply the numerical prefactor in place by a BareCoefficient.
+    =#
+
+    append!(c.top, bc)
+    canonicalize!(c)
+
+    nothing
+
+end
+
+function div!(c::Coefficient, bc::BareCoefficient)
+    #=
+    Divice the numerical prefactor in place by a BareCoefficient.
+    =#
+
+    append!(c.bot, bc)
+    canonicalize!(c)
+
+    nothing
+
+end
+
 zero(T::Type{Coefficient}) = Coefficient(zero(ExactNumber), BareCoefficient[], BareCoefficient[])
 
 # Is the coefficient a zero?
