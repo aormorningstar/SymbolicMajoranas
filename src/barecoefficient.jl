@@ -1,11 +1,11 @@
 
-struct BareCoefficient
+struct BareCoefficient{T<:Integer}
     #=
     Symbolic representation of a coefficent in the bare Majorana Hamiltonian.
     =#
 
-    site::Integer # the site of the corresponding bare operator
-    type::Integer # the type of the corresponding bare operator
+    site::T # the site of the corresponding bare operator
+    type::String # the type of the corresponding bare operator
 
 end
 

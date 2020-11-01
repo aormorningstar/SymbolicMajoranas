@@ -12,9 +12,9 @@ end
 # interface with abstract array
 size(ts::TermSum) = size(ts.terms)
 
-getindex(ts::TermSum, i::Integer) = getindex(ts.terms, i)
+getindex(ts::TermSum, i) = getindex(ts.terms, i)
 
-setindex!(ts::TermSum, t::Term, i::Integer) = setindex!(ts.terms, t, i)
+setindex!(ts::TermSum, t::Term, i) = setindex!(ts.terms, t, i)
 
 function show(io::IO, ts::TermSum)
     #=

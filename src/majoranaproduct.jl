@@ -1,10 +1,10 @@
 
-mutable struct MajoranaProduct
+mutable struct MajoranaProduct{T<:Integer}
     #=
     Product of Majorana operators.
     =#
 
-    sites::Vector{Integer} # Majorana operators on these sites
+    sites::Vector{T} # Majorana operators on these sites
 
 end
 

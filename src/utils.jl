@@ -1,5 +1,5 @@
 
-function _equalarrays(a1::AbstractArray{T}, a2::AbstractArray{T}) where T
+function _equalarrays(a1::AbstractArray{T1}, a2::AbstractArray{T2}) where T1 where T2
     #=
     Compare two arrays for equality.
     =#
@@ -12,7 +12,7 @@ end
 ExactNumber = Union{Complex{Rational{I1}}, Rational{I2}, I3, Complex{I4}} where I1 <: Integer where
 I2 <: Integer where I3 <: Integer where I4 <: Integer
 
-function _compresssum(v::AbstractArray{T, 1}) where T
+function _compresssum(v::AbstractVector{T}) where T
 
     # if elements can be added together, do so
     cv = Vector{T}()
@@ -40,7 +40,7 @@ function _compresssum(v::AbstractArray{T, 1}) where T
 
 end
 
-function _cancelpairs!(v::AbstractArray{T, 1}, u::AbstractArray{T, 1}) where T
+function _cancelpairs!(v::AbstractVector{T}, u::AbstractVector{T}) where T
     #=
     Delete pairs of equal elements in the two vectors.
     =#

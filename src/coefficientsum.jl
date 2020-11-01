@@ -11,9 +11,9 @@ end
 # interface with abstract array
 size(cs::CoefficientSum) = size(cs.coeffs)
 
-getindex(cs::CoefficientSum, i::Integer) = getindex(cs.coeffs, i)
+getindex(cs::CoefficientSum, i) = getindex(cs.coeffs, i)
 
-setindex!(cs::CoefficientSum, c::Coefficient, i::Integer) = setindex!(cs.coeffs, c, i)
+setindex!(cs::CoefficientSum, c::Coefficient, i) = setindex!(cs.coeffs, c, i)
 
 empty!(cs::CoefficientSum) = empty!(cs.coeffs)
 
