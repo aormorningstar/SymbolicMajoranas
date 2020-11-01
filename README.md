@@ -11,4 +11,6 @@ Functionality for working symbolically with operators that are sums of products 
 
 Alan Morningstar
 
+## License
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
