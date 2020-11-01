@@ -4,6 +4,8 @@ Functionality for working symbolically with operators that are sums of products 
 
 ## TODO
 - more testing
+- conform to standard doc format and generate docs automatically
+- package as a proper module
 
 ## Author
 
